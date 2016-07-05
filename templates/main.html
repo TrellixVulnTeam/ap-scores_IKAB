@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=320, height=device-height, target-densitydpi=medium-dpi" />
+    <title>SHOW ME THE APSCORES - duhminick</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+    <style>
+        #login {
+            padding-left: 10px;
+            padding-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="login">
+        <h3>CollegeBoard Information <small>FOLLOW ME ON TWITTER <a href="https://twitter.com/duhminick">@duhminick</a></small></h3>
+        <input type="text" id="cbuser" placeholder="Username">
+        <input type="password" id="cbpass" placeholder="Password">
+        <input type="button" id="view-scores" value="View Scores">
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Exam</th>
+                <th>Score</th>
+            </tr>
+        </thead>
+        <tbody id="scores">
+{#            <tr>#}
+{#                <td>AP Gov</td>#}
+{#                <td>5</td>#}
+{#            </tr>#}
+        </tbody>
+    </table>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script>
+        $('#view-scores').click(function() {
+           $.post('/api/scores', {username: $('#cbuser').val(), password: $('#cbpass').val()}, function(data) {
+               var json = jQuery.parseJSON(data);
+               $.each(json, function(key, value) {
+                    $('#scores').append("<tr><td>" +
+                               key +
+                       "</td><td>" +
+                               value +
+                       "</td></tr>");
+               });
+           });
+        });
+    </script>
+</body>
+</html>
